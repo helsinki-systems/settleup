@@ -1,7 +1,7 @@
 with import <nixpkgs> {}; let
   unstable = pkgs.unstable or (import <unstable> {});
 in mkShell {
-  name = "hslog";
+  name = "settleup";
 
   nativeBuildInputs = [
     gnumake
