@@ -50,26 +50,7 @@ func (c *Client) AuthedRequest(req *http.Request) ([]byte, error) {
 	q.Add("auth", c.authToken)
 	req.URL.RawQuery = q.Encode()
 
-	res, err := c.conf.HTTPClient.Do(req)
-	if err != nil {
-		return nil, fmt.Errorf("failed to do: %w", err)
-	}
-	defer func() {
-		if err := res.Body.Close(); err != nil {
-			c.conf.Logger.Warn(fmt.Sprintf("failed to close response body: %v", err))
-		}
-	}()
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		return nil, fmt.Errorf("failed to read response body: %w", err)
-	}
-
-	if res.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("unexpected response status code %d: %s", res.StatusCode, body)
-	}
-
-	return body, nil
+	return c.Request(req)
 }
 
 func New(c Config) *Client {
