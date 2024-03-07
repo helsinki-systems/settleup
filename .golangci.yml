@@ -18,9 +18,8 @@ linters-settings:
         deny:
           - pkg: "flag"
             desc: '`flag` package is only allowed in main.go'
-          # TODO: Allow "log/slog", deny "log"
-          # - pkg: "log"
-          #   desc: 'logging is provided by `log/slog`'
+          - pkg: "log$"
+            desc: 'logging is provided by `log/slog`'
           - pkg: "io/ioutil"
             desc: '`io/ioutil` package is deprecated, use the `io` and `os` package instead'
           - pkg: "reflect"
