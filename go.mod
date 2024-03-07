@@ -1,6 +1,6 @@
 module github.com/helsinki-systems/settleup
 
-go 1.22.0
+go 1.22.1
 
 require (
 	github.com/danielgtaylor/huma/v2 v2.7.0
