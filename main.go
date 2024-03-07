@@ -17,7 +17,7 @@ import (
 )
 
 //nolint:gochecknoglobals // Nice to use as a global
-var logTarget = os.Stdout
+var logTarget = os.Stderr
 
 func run(ctx context.Context, c Config) error {
 	ac := api.New(c.apiConf)
