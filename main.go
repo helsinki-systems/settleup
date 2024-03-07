@@ -10,8 +10,8 @@ import (
 	"net/http"
 	"os"
 
-	"git.helsinki.tools/mittagessen-gmbh/settleup/pkg/api"
-	"git.helsinki.tools/mittagessen-gmbh/settleup/pkg/server"
+	"github.com/helsinki-systems/settleup/pkg/api"
+	"github.com/helsinki-systems/settleup/pkg/server"
 
 	"github.com/joho/godotenv"
 )

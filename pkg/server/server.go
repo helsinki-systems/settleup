@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"git.helsinki.tools/mittagessen-gmbh/settleup/pkg/api"
+	"github.com/helsinki-systems/settleup/pkg/api"
 
 	huma "github.com/danielgtaylor/huma/v2"
 	"github.com/danielgtaylor/huma/v2/adapters/humago"

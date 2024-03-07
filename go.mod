@@ -1,4 +1,4 @@
-module git.helsinki.tools/mittagessen-gmbh/settleup
+module github.com/helsinki-systems/settleup
 
 go 1.22.0
 

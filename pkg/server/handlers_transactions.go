@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"git.helsinki.tools/mittagessen-gmbh/settleup/pkg/api"
+	"github.com/helsinki-systems/settleup/pkg/api"
 )
 
 type (

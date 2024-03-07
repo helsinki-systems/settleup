@@ -51,7 +51,7 @@ linters-settings:
   gci:
     sections:
       - standard
-      - prefix(git.helsinki.tools/mittagessen-gmbh/settleup)
+      - prefix(github.com/helsinki-systems/settleup)
       - default
       - blank
       - dot
@@ -84,7 +84,7 @@ linters-settings:
         checkExported: true
 
   gofumpt:
-    module-path: git.helsinki.tools/mittagessen-gmbh/settleup
+    module-path: github.com/helsinki-systems/settleup
     extra-rules: true
 
   gosec:
