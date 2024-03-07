@@ -24,7 +24,7 @@ func (c *Client) Request(req *http.Request) ([]byte, error) {
 	}
 	defer func() {
 		if err := res.Body.Close(); err != nil {
-			c.conf.Logger.Warn(fmt.Sprintf("failed to close response body: %v", err))
+			c.conf.Logger.Warn(fmt.Errorf("failed to close response body: %w", err).Error())
 		}
 	}()
 

@@ -1,22 +1,21 @@
 package server
 
 import (
+	"context"
 	"fmt"
 	"log/slog"
 	"net/http"
 	"time"
 
 	"git.helsinki.tools/mittagessen-gmbh/settleup/pkg/api"
+
+	huma "github.com/danielgtaylor/huma/v2"
+	"github.com/danielgtaylor/huma/v2/adapters/humago"
 )
 
 const (
 	httpReadTimeout  = 10 * time.Second
 	httpWriteTimeout = 5 * time.Second
-)
-
-const (
-	requestIDHeaderName = "X-Request-ID"
-	requestIDLength     = 36 // UUIDv4
 )
 
 type Server struct {
@@ -25,23 +24,47 @@ type Server struct {
 	apiClient *api.Client
 }
 
+type (
+	humaContext   huma.Context
+	customContext struct {
+		humaContext
+		custom context.Context //nolint:containedctx // Required due to missing huma SetContext
+	}
+)
+
+func (c *customContext) Context() context.Context {
+	return c.custom
+}
+
+// TODO: https://github.com/danielgtaylor/huma/pull/275#issuecomment-1975073339
+func setContextValue(ctx huma.Context, key, val any) huma.Context {
+	return &customContext{
+		humaContext: ctx,
+		custom:      context.WithValue(ctx.Context(), key, val),
+	}
+}
+
+type ctxType string
+
+const (
+	loggerKey ctxType = "logger"
+	ridKey    ctxType = "rid"
+)
+
+func loggerFromRequest(ctx context.Context) *slog.Logger {
+	l := ctx.Value(loggerKey)
+	if l, ok := l.(*slog.Logger); ok {
+		return l
+	}
+	panic("Failed to type-assert to logger. This should never happen.") //nolint:forbidigo // Will never happen
+}
+
 func (s *Server) ListenAndServe() error {
 	mux := http.NewServeMux()
+	hapi := humago.New(mux, huma.DefaultConfig("API", "1.0.0"))
 
-	mux.HandleFunc(
-		"/members",
-		makeAllMembersHandler(
-			s.conf.Logger.With("hdl", "/members"),
-			s.apiClient,
-		),
-	)
-	mux.HandleFunc(
-		"/transactions",
-		makeTransactionsHandler(
-			s.conf.Logger.With("hdl", "/transactions"),
-			s.apiClient,
-		),
-	)
+	registerMiddlewares(hapi, s.conf.Logger)
+	registerRoutes(hapi, s.apiClient)
 
 	srv := &http.Server{
 		Addr: s.conf.HTTPTCPBind,

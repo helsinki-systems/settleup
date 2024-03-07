@@ -6,7 +6,7 @@ in mkShell {
   nativeBuildInputs = [
     gnumake
 
-    go
+    unstable.go_1_22
     unstable.golangci-lint
 
     air

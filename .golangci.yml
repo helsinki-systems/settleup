@@ -208,7 +208,7 @@ linters-settings:
     check-exported: true
 
   unused:
-    parameters-are-used: false
+    # parameters-are-used: false # TODO: Fix issues with this option (upstream)
     local-variables-are-used: false
     # NOTE: Set these options to true if other projects rely on this project's code
     field-writes-are-uses: false
