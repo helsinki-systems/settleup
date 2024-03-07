@@ -13,10 +13,13 @@ in mkShell {
   ];
 
   shellHook = ''
+    rootdir="$(realpath "$PWD")"
     if [[ -n "$IN_LORRI_SHELL" ]]; then
-      export GOPATH="$(dirname $IN_LORRI_SHELL)/.gopath"
-    else
-      export GOPATH="$PWD/.gopath"
+      rootdir="$(dirname "$IN_LORRI_SHELL")"
     fi
+    export GOPATH="$rootdir/.gopath"
+    export GOBIN="$GOPATH/bin"
+    export GOCACHE="$GOPATH/.cache"
+    export PATH="$PATH:$GOBIN"
   '';
 }
